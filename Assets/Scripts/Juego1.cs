@@ -1,11 +1,15 @@
 using System;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class Juego1 : MonoBehaviour
 {
-    public Button[] buttons; // Debe tener 25 botones en el Inspector
+    public Button[] buttons;  // Arreglo de 25 botones en Unity
+    public TMP_Text timerText;    // Texto UI para mostrar el tiempo
     private bool[,] tabla = new bool[5, 5];
+    public float tiempoRestante = 60f; // 60 segundos de juego
+    private bool juegoActivo = true;
 
     void Start()
     {
@@ -15,8 +19,24 @@ public class Juego1 : MonoBehaviour
         // Asignar eventos a los botones
         for (int i = 0; i < buttons.Length; i++)
         {
-            int index = i; // Captura el índice para la lambda
+            int index = i;
             buttons[i].onClick.AddListener(() => VerificarBoton(index));
+        }
+
+        ActualizarTiempoUI();
+    }
+
+    void Update()
+    {
+        if (juegoActivo)
+        {
+            tiempoRestante -= Time.deltaTime; // Reducir el tiempo
+            if (tiempoRestante <= 0)
+            {
+                tiempoRestante = 0;
+                FinDelJuego();
+            }
+            ActualizarTiempoUI();
         }
     }
 
@@ -45,7 +65,7 @@ public class Juego1 : MonoBehaviour
         {
             for (int j = 0; j < 5; j++)
             {
-                int index = i * 5 + j; // Convertir coordenadas 2D a 1D para acceder al array de botones
+                int index = i * 5 + j;
                 if (buttons[index] != null)
                 {
                     buttons[index].image.color = tabla[i, j] ? Color.green : Color.red;
@@ -56,6 +76,8 @@ public class Juego1 : MonoBehaviour
 
     void VerificarBoton(int index)
     {
+        if (!juegoActivo) return; // No hacer nada si el juego ha terminado
+
         int fila = index / 5;
         int columna = index % 5;
 
@@ -64,6 +86,23 @@ public class Juego1 : MonoBehaviour
         {
             CambiarAleatorio();
             ActualizarColores();
+        }
+    }
+
+    void ActualizarTiempoUI()
+    {
+        timerText.text = "Tiempo: " + Mathf.CeilToInt(tiempoRestante) + "s";
+    }
+
+    void FinDelJuego()
+    {
+        juegoActivo = false;
+        timerText.text = "¡Tiempo terminado!";
+
+        // Deshabilitar botones
+        foreach (Button btn in buttons)
+        {
+            btn.interactable = false;
         }
     }
 }

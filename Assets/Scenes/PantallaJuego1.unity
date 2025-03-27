@@ -3201,6 +3201,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   buttons: []
+  timerText: {fileID: 0}
 --- !u!1 &551696147
 GameObject:
   m_ObjectHideFlags: 0
@@ -4612,6 +4613,7 @@ MonoBehaviour:
   - {fileID: 457663129}
   - {fileID: 1104470460}
   - {fileID: 629724263}
+  timerText: {fileID: 0}
 --- !u!1 &916787094
 GameObject:
   m_ObjectHideFlags: 0

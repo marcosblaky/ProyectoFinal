@@ -2,6 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class Juego1 : MonoBehaviour
 {
@@ -115,5 +116,12 @@ public class Juego1 : MonoBehaviour
         {
             btn.interactable = false;
         }
+        Invoke("CambiarEscena", 5);
+        
+
+    }
+    void CambiarEscena()
+    {
+        SceneManager.LoadScene("PantallaJuego1PRE");
     }
 }

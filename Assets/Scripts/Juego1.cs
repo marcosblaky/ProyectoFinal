@@ -1,15 +1,17 @@
 using System;
-using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class Juego1 : MonoBehaviour
 {
     public Button[] buttons;  // Arreglo de 25 botones en Unity
-    public TMP_Text timerText;    // Texto UI para mostrar el tiempo
+    public TMP_Text timerText; // Texto para mostrar el tiempo
+    public TMP_Text scoreText; // Texto para mostrar la puntuación
     private bool[,] tabla = new bool[5, 5];
-    public float tiempoRestante = 60f; // 60 segundos de juego
+    private float tiempoRestante = 60f; // 60 segundos de juego
     private bool juegoActivo = true;
+    private int puntuacion = 0; // Contador de puntuación
 
     void Start()
     {
@@ -24,6 +26,7 @@ public class Juego1 : MonoBehaviour
         }
 
         ActualizarTiempoUI();
+        ActualizarPuntuacionUI();
     }
 
     void Update()
@@ -81,23 +84,31 @@ public class Juego1 : MonoBehaviour
         int fila = index / 5;
         int columna = index % 5;
 
-        // Si el botón corresponde al 1 en la tabla, actualizar los colores con una nueva posición aleatoria
+        // Si el botón corresponde al 1 en la tabla, aumentar la puntuación
         if (tabla[fila, columna])
         {
+            puntuacion++; // Sumar un punto
             CambiarAleatorio();
             ActualizarColores();
+            ActualizarPuntuacionUI();
         }
     }
 
     void ActualizarTiempoUI()
     {
-        timerText.text = "Tiempo: " + Mathf.CeilToInt(tiempoRestante) + "s";
+        timerText.text = $"Tiempo: {Mathf.CeilToInt(tiempoRestante)}s";
+    }
+
+    void ActualizarPuntuacionUI()
+    {
+        scoreText.text = $"Puntuación: {puntuacion}";
     }
 
     void FinDelJuego()
     {
         juegoActivo = false;
         timerText.text = "¡Tiempo terminado!";
+        scoreText.text = $"Puntuación final: {puntuacion}";
 
         // Deshabilitar botones
         foreach (Button btn in buttons)

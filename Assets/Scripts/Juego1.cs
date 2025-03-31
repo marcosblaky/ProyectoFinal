@@ -14,6 +14,16 @@ public class Juego1 : MonoBehaviour
     private bool juegoActivo = true;
     private int puntuacion = 0; // Contador de puntuación
 
+    private Color[,] parejasColores = new Color[6, 2] {
+        { new Color(0.9f, 0.1f, 0.1f), new Color(1f, 0.2f, 0.2f) }, // Rojos
+        { new Color(0.1f, 0.9f, 0.1f), new Color(0.2f, 1f, 0.2f) }, // Verdes
+        { new Color(0.1f, 0.1f, 0.9f), new Color(0.2f, 0.2f, 1f) }, // Azules
+        { new Color(0.9f, 0.9f, 0.1f), new Color(1f, 1f, 0.2f) }, // Amarillos
+        { new Color(0.6f, 0.1f, 0.6f), new Color(0.7f, 0.2f, 0.7f) }, // Morados
+        { new Color(1f, 0.6f, 0.8f), new Color(1f, 0.7f, 0.9f) }  // Rosas
+    };
+    private int indiceColorActual = 0;
+
     void Start()
     {
         // Quitar texto de todos los botones
@@ -25,6 +35,7 @@ public class Juego1 : MonoBehaviour
                 btnText.text = "";
             }
         }
+
         CambiarAleatorio();
         ActualizarColores();
 
@@ -70,10 +81,16 @@ public class Juego1 : MonoBehaviour
         int fila = rnd.Next(0, 5);
         int columna = rnd.Next(0, 5);
         tabla[fila, columna] = true;
+
+        // Cambiar a la siguiente pareja de colores
+        indiceColorActual = (indiceColorActual + 1) % 6;
     }
 
     void ActualizarColores()
     {
+        Color colorFalso = parejasColores[indiceColorActual, 0];
+        Color colorCorrecto = parejasColores[indiceColorActual, 1];
+
         for (int i = 0; i < 5; i++)
         {
             for (int j = 0; j < 5; j++)
@@ -81,7 +98,7 @@ public class Juego1 : MonoBehaviour
                 int index = i * 5 + j;
                 if (buttons[index] != null)
                 {
-                    buttons[index].image.color = tabla[i, j] ? Color.green : Color.red;
+                    buttons[index].image.color = tabla[i, j] ? colorCorrecto : colorFalso;
                 }
             }
         }
@@ -126,9 +143,8 @@ public class Juego1 : MonoBehaviour
             btn.interactable = false;
         }
         Invoke("CambiarEscena", 5);
-        
-
     }
+
     void CambiarEscena()
     {
         SceneManager.LoadScene("PantallaJuego1PRE");

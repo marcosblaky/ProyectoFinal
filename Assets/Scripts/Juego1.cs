@@ -16,6 +16,15 @@ public class Juego1 : MonoBehaviour
 
     void Start()
     {
+        // Quitar texto de todos los botones
+        foreach (Button btn in buttons)
+        {
+            TMP_Text btnText = btn.GetComponentInChildren<TMP_Text>();
+            if (btnText != null)
+            {
+                btnText.text = "";
+            }
+        }
         CambiarAleatorio();
         ActualizarColores();
 

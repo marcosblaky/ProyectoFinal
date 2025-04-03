@@ -134,7 +134,7 @@ public class Juego1 : MonoBehaviour
     void FinDelJuego()
     {
         juegoActivo = false;
-        timerText.text = "¡Time has ended!";
+        timerText.text = "Time has ended!";
         scoreText.text = $"Final score: {puntuacion}";
 
         // Deshabilitar botones

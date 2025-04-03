@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 public class Juego2 : MonoBehaviour
 {
     public Button botonReaccion;
-    public TMP_Text mensajeTiempo; // Texto para mostrar el tiempo de reacción
+    public TMP_Text mensajeTiempo; 
     private float tiempoInicio;
     private bool puedePresionar = false;
 

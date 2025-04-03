@@ -123,19 +123,19 @@ public class Juego1 : MonoBehaviour
 
     void ActualizarTiempoUI()
     {
-        timerText.text = $"Tiempo: {Mathf.CeilToInt(tiempoRestante)}s";
+        timerText.text = $"Time: {Mathf.CeilToInt(tiempoRestante)}s";
     }
 
     void ActualizarPuntuacionUI()
     {
-        scoreText.text = $"Puntuación: {puntuacion}";
+        scoreText.text = $"Score: {puntuacion}";
     }
 
     void FinDelJuego()
     {
         juegoActivo = false;
-        timerText.text = "¡Tiempo terminado!";
-        scoreText.text = $"Puntuación final: {puntuacion}";
+        timerText.text = "¡Time has ended!";
+        scoreText.text = $"Final score: {puntuacion}";
 
         // Deshabilitar botones
         foreach (Button btn in buttons)

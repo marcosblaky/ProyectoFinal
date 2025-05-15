@@ -42,6 +42,7 @@ public class Juego3 : MonoBehaviour
 
         float anchoCanvas = canvasRT.rect.width;
         float altoCanvas = canvasRT.rect.height;
+        altoCanvas = altoCanvas - 180;
 
         float anchoBoton = rt.rect.width;
         float altoBoton = rt.rect.height;

@@ -56,4 +56,13 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/PantallaLaderboard.unity
     guid: a5652c0ce8acddc43a9720f58b0994a5
+  - enabled: 1
+    path: Assets/Scenes/PantallaJuego6Instrucciones.unity
+    guid: 497b436a09a6c5841bccdc11a9983035
+  - enabled: 1
+    path: Assets/Scenes/PantallaJuego6.unity
+    guid: 6eb298cbec3a7024295abaed350074d5
+  - enabled: 1
+    path: Assets/Scenes/PantallaJuego6PRE.unity
+    guid: 6c03677c50357de4482ea34bd34aba84
   m_configObjects: {}

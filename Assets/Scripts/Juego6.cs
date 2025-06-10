@@ -13,6 +13,10 @@ public class MemoryGame : MonoBehaviour
     public TextMeshProUGUI textoMovimientos;
     public TextMeshProUGUI textoInstrucciones;
 
+    [Header("Sprites")]
+    public Sprite reversoCarta; // Imagen que se muestra cuando la carta está boca abajo
+    public Sprite[] carasCartas = new Sprite[6]; // Las 6 imágenes para cada par
+
     private int movimientos = 0;
     private bool esperando = false;
 
@@ -22,14 +26,17 @@ public class MemoryGame : MonoBehaviour
 
     void Start()
     {
-        textoInstrucciones.text = "Encuentra los pares.";
-        textoMovimientos.text = "Movimientos: 0";
+        textoInstrucciones.text = "Find pairs.";
+        textoMovimientos.text = "Moves: 0";
 
         AsignarValoresAleatorios();
 
+        // Inicializar todas las cartas con la imagen de reverso y añadir listener
         for (int i = 0; i < cartas.Length; i++)
         {
-            int index = i; // evitar error por closures
+            int index = i; // Para cierre correcto en listener
+            cartas[i].image.sprite = reversoCarta;
+            cartas[i].interactable = true;
             cartas[i].onClick.AddListener(() => AlHacerClickCarta(index));
         }
     }
@@ -38,14 +45,14 @@ public class MemoryGame : MonoBehaviour
     {
         List<int> valores = new List<int>();
 
-        // Agregar dos veces cada número del 0 al 5 (6 pares)
+        // Dos veces cada valor (0 a 5)
         for (int i = 0; i < 6; i++)
         {
             valores.Add(i);
             valores.Add(i);
         }
 
-        // Mezclar la lista
+        // Mezclar
         for (int i = 0; i < valores.Count; i++)
         {
             int temp = valores[i];
@@ -54,13 +61,9 @@ public class MemoryGame : MonoBehaviour
             valores[randomIndex] = temp;
         }
 
-        // Asignar a valoresCartas
         for (int i = 0; i < 12; i++)
         {
             valoresCartas[i] = valores[i];
-
-            // Ocultar texto inicialmente
-            cartas[i].GetComponentInChildren<TextMeshProUGUI>().text = "";
         }
     }
 
@@ -69,57 +72,59 @@ public class MemoryGame : MonoBehaviour
         if (esperando) return;
 
         Button carta = cartas[index];
-        TextMeshProUGUI textoCarta = carta.GetComponentInChildren<TextMeshProUGUI>();
 
-        if (textoCarta.text != "") return; // Ya revelada
+        // Si ya está revelada, no hacer nada
+        if (carta.image.sprite != reversoCarta) return;
 
-        textoCarta.text = valoresCartas[index].ToString();
+        // Mostrar la cara de la carta
+        carta.image.sprite = carasCartas[valoresCartas[index]];
 
         if (cartaSeleccionada1 == null)
         {
             cartaSeleccionada1 = carta;
+            textoInstrucciones.text = "Flip another card";  // Ya seleccionaste la primera carta
         }
         else if (cartaSeleccionada2 == null && carta != cartaSeleccionada1)
         {
             cartaSeleccionada2 = carta;
             movimientos++;
-            textoMovimientos.text = "Movimientos: " + movimientos;
+            textoMovimientos.text = "Moves: " + movimientos;
             StartCoroutine(CompararCartas());
         }
     }
+
 
     IEnumerator CompararCartas()
     {
         esperando = true;
 
-        int val1 = int.Parse(cartaSeleccionada1.GetComponentInChildren<TextMeshProUGUI>().text);
-        int val2 = int.Parse(cartaSeleccionada2.GetComponentInChildren<TextMeshProUGUI>().text);
+        int val1 = valoresCartas[System.Array.IndexOf(cartas, cartaSeleccionada1)];
+        int val2 = valoresCartas[System.Array.IndexOf(cartas, cartaSeleccionada2)];
 
         yield return new WaitForSeconds(1f);
 
         if (val1 == val2)
         {
-            // Match: desactivar botones
+            // Par encontrado, desactivar botones
             cartaSeleccionada1.interactable = false;
             cartaSeleccionada2.interactable = false;
-            textoInstrucciones.text = "¡Encontraste un par!";
+            textoInstrucciones.text = "¡You found a pair!";
         }
         else
         {
-            // No match: ocultar valores
-            cartaSeleccionada1.GetComponentInChildren<TextMeshProUGUI>().text = "";
-            cartaSeleccionada2.GetComponentInChildren<TextMeshProUGUI>().text = "";
-            textoInstrucciones.text = "Intenta de nuevo.";
+            // No es par, ocultar cartas (poner reverso)
+            cartaSeleccionada1.image.sprite = reversoCarta;
+            cartaSeleccionada2.image.sprite = reversoCarta;
+            textoInstrucciones.text = "Try again.";
         }
 
         cartaSeleccionada1 = null;
         cartaSeleccionada2 = null;
         esperando = false;
 
-        // Verificar si el juego terminó
         if (JuegoTerminado())
         {
-            textoInstrucciones.text = $"¡Ganaste en {movimientos} movimientos!";
+            textoInstrucciones.text = $"¡You win!";
         }
     }
 
@@ -129,6 +134,7 @@ public class MemoryGame : MonoBehaviour
         {
             if (b.interactable) return false;
         }
+
         return true;
     }
 }

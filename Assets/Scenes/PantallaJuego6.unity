@@ -3599,6 +3599,14 @@ MonoBehaviour:
   - {fileID: 1951388581}
   textoMovimientos: {fileID: 2136370672}
   textoInstrucciones: {fileID: 632413382}
+  reversoCarta: {fileID: 21300000, guid: 738de323100edde4793e912ff3762306, type: 3}
+  carasCartas:
+  - {fileID: 21300000, guid: 374fa2d0b57bf5e40be73ef6f06bda14, type: 3}
+  - {fileID: 21300000, guid: b390387acb1f4fb49a12afe7b943e902, type: 3}
+  - {fileID: 21300000, guid: f8a51d5c26789e142a1212bf5427a2b0, type: 3}
+  - {fileID: 21300000, guid: ff7b5173b7be23b4587def44e98a2b2f, type: 3}
+  - {fileID: 21300000, guid: 26c0f20872360864a90d1dee3ce0d43a, type: 3}
+  - {fileID: 21300000, guid: e823c809ec52f6a47a26adba97add089, type: 3}
 --- !u!1 &1749879161
 GameObject:
   m_ObjectHideFlags: 0
